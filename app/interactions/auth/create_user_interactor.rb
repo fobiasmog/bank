@@ -6,7 +6,10 @@ module Auth
 
     def execute
       ActiveRecord::Base.transaction do
-        user = User.find_or_create_by!(email: email).with(name: name, avatar_url: avatar_url)
+        user = User.find_or_create_by!(email: email) do |user|
+          user.name = name
+          user.avatar_url = avatar_url
+        end
         Account.find_or_create_by!(user: user)
       end
     end

@@ -12,7 +12,7 @@ class Auth0Controller < ApplicationController
       avatar_url: auth_info.dig('extra', 'raw_info', 'picture'),
     }
 
-    # Auth::CreateUserInteractor.run!(**user_hash)
+    Auth::CreateUserInteractor.run!(**user_hash)
 
     # Redirect to the URL you want after successful auth
     redirect_to '/'

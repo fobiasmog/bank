@@ -1,7 +1,9 @@
 module Accounts
   class Balance < ActiveInteraction::Base
+    object :user, class: User
+
     def execute
-      return { balance: 100.01 }
+      return { balance: user.account.balance }
     end
   end
 end

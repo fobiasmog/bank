@@ -12,5 +12,7 @@
 
   <body>
     <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
+
+    <%= @user&.as_json %>
   </body>
 </html>

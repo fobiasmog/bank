@@ -10,7 +10,7 @@ class Api::V1::AccountController < ::ApiController
   end
 
   def balance
-    result = ::Accounts::Balance.run!
+    result = ::Accounts::Balance.run!(user: current_user)
     render json: result
   end
 end
