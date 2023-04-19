@@ -1,0 +1,2 @@
+class TransactionLogJob < ApplicationJob
+end
