@@ -13,3 +13,26 @@
  *= require_tree .
  *= require_self
  */
+
+
+.selected-row {
+  color: red;
+}
+
+.rows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 300px;
+  max-width: 500px;
+  overflow: auto;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+.rows-container > *:hover {
+  color: gray
+}
+.rows-container > * {
+  cursor: pointer;
+}

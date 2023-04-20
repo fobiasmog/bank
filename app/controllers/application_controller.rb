@@ -1,7 +1,11 @@
 class ApplicationController < ActionController::Base
   def index
     @user = current_user
-    @account = current_user&.account
+
+    if current_user
+      @account = current_user&.account
+      @clients_list = ::Transfers::ClientsListInteractor.run!(user: current_user)
+    end
   end
 
   def current_user

@@ -13,10 +13,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       scope :account do
-        post :transfer, to: 'account#transfer'
         get :transactions, to: 'account#transactions'
         get :balance, to: 'account#balance'
       end
+
+      post :transfer, to: 'transfer#transfer_money'
     end
   end
 end

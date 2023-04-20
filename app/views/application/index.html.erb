@@ -1,25 +1,34 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Bank</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<% if @user.present? %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <div data-controller="transfers">
+    <%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
+    <%= @user.name %>
+    <%= @account.iban %>
+    <div data-transfers-target="balance"><%= @account.balance %></div>
 
-  <body>
+    <div>
+      <input data-transfers-target="amount" type="number" max="<%# @account.balance %>" />
+      <button
+        data-action="transfers#transfer"
+        data-transfers-target="sendButton"
+      >
+        Send
+      </button>
+    </div>
 
-    <% if @user.present? %>
-      <%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
-      <%= @user.name %>
-      <%= @account.iban %>
-      <%= @account.balance %>
-    <% else %>
-      <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
-    <% end %>
+    <div data-transfers-target="clients" class="rows-container">
+      <% @clients_list.each_with_index do |client, index| %>
+        <div
+          data-action="click->transfers#selectClient"
+          data-transfers-client-id-param="<%= client.id %>"
+          data-transfers-position-param="<%= index + 1 %>"
+        >
+          <%= client.name %> - <%= client.iban %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-  </body>
-</html>
+<% else %>
+  <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
+<% end %>
