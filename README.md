@@ -4,7 +4,7 @@
 ...
 
 ## TODOs
-* [ ] constraints, indexes
+* [ ] constraints, indexes, not nulls
 * [ ] specs
 * [ ] ui
 * [ ] rake for user creation
