@@ -15,7 +15,8 @@
     <% if @user.present? %>
       <%= button_to 'Logout', 'auth/logout', method: :get, data: { turbo: false } %>
       <%= @user.name %>
-      <%= @user.account.balance %>
+      <%= @account.iban %>
+      <%= @account.balance %>
     <% else %>
       <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
     <% end %>

@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   def index
     @user = current_user
+    @account = current_user&.account
   end
 
   def current_user
