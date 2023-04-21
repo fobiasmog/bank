@@ -10,6 +10,8 @@ module Transfers
     attr_reader :transaction_log_service
 
     def execute
+      raise ::Errors::WrongReceiver if sender_user.id == receiver_user.id
+
       @transaction_log_service = TransactionLogService.new(sender_user, receiver_user, amount)
 
       begin
@@ -23,6 +25,8 @@ module Transfers
 
     rescue ActiveRecord::RecordNotFound
       catch_error!("Error:", "No user")
+    rescue ::Errors::WrongReceiver
+      catch_error!("Error:", "No way!")
     rescue StandardError
       catch_error!("Error:", "oops something went wrong")
     end

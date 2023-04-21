@@ -1,6 +1,7 @@
 # README
 
-## Assumptions
+## Assumptions and simplifications
+0. Each client can have only one account
 1. Each client make (in average) 5-10 transactions per day
 2. Deadlocks on transactions is possible, and not very often (see 1.)
 3. Instead of "Transactions" table we'll be use something write optimized (Cassandra)

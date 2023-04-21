@@ -3,8 +3,8 @@ module Transfers
     attr_reader :transaction
     def initialize(sender_user, receiver_user, amount)
       @transaction = Transaction.create(
-        sender_account: sender_user.account,
-        receiver_account: receiver_user.account,
+        sender_account_id: sender_user.account.id,
+        receiver_account_id: receiver_user.account.id,
         amount: amount,
         key: SecureRandom.uuid
       )
