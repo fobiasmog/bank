@@ -4,6 +4,7 @@ module Transfers
     object :user, class: User
 
     def execute
+      # TODO: query?
       User.joins(:account).where.not(id: user.id).select('users.id, users.name, accounts.iban')
     end
   end
