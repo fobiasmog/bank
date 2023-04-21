@@ -1,5 +1,5 @@
 module Accounts
-  class Balance < ActiveInteraction::Base
+  class BalanceInteractor < ActiveInteraction::Base
     object :user, class: User
 
     def execute

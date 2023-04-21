@@ -1,5 +1,5 @@
 module Accounts
-  class Transactions < ActiveInteraction::Base
+  class TransactionsInteractor < ActiveInteraction::Base
     def execute
       return [
         { type: 'charge', value: 100, user: 'Alice' },
