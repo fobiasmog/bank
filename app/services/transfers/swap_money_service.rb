@@ -1,18 +1,15 @@
 module Transfers
   class SwapMoneyService
-    def call(sender_user, receiver_user, amount)
-      ActiveRecord::Base.transaction do
-        sender_account = sender_user.account.lock!
-        raise ::Errors::NotEnoughtMoney unless (sender_account.balance - amount).positive?
+    def self.call(sender_account_id, receiver_account_id, amount)
+      ActiveRecord::Base.connection.execute "SET lock_timeout TO '1s'" # or, maybe, tune you pg config
 
-        receiver_account = receiver_user.account.lock!
+      sender_account = Account.find(sender_account_id).lock!
+      raise ::Errors::NotEnoughMoney unless (sender_account.balance - amount).positive?
 
-        sender_account.balance -= amount
-        receiver_account.balance += amount
+      receiver_account = Account.find(receiver_account_id).lock!
 
-        sender_account.save!
-        receiver_account.save!
-      end
+      sender_account.update!(balance: sender_account.balance - amount)
+      receiver_account.update!(balance: receiver_account.balance + amount)
     end
   end
 end

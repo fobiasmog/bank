@@ -7,28 +7,40 @@ module Transfers
     validates :sender_id, :receiver_id, presence: true
     validates_numericality_of :amount, greater_than: 0
 
-    attr_reader :transaction_log_service
+    attr_reader :debit_log, :credit_log
 
     def execute
       raise ::Errors::WrongReceiver if sender_user.id == receiver_user.id
 
-      @transaction_log_service = TransactionLogService.new(sender_user, receiver_user, amount)
-
-      begin
-        ::Transfers::SwapMoneyService.call(sender_user, receiver_user, amount)
-        transaction_log_service.complete!
-      rescue ::Errors::NotEnoughtMoney
-        catch_error!(:sender_id, "Not enough money")
+      # if second transaction will be rollbacked, we are not loose our history
+      ActiveRecord::Base.transaction do
+        @debit_log = ::TransactionLogs::DebitLoggerService.new(sender_user.account, amount)
+        @credit_log = ::TransactionLogs::CreditLoggerService.new(receiver_user.account, amount)
       end
 
-      return { balance: sender_user.account.balance }
+      ActiveRecord::Base.transaction do
+        ::Transfers::SwapMoneyService.call(sender_user.account.id, receiver_user.account.id, amount)
 
-    rescue ActiveRecord::RecordNotFound
-      catch_error!("Error:", "No user")
-    rescue ::Errors::WrongReceiver
-      catch_error!("Error:", "No way!")
-    rescue StandardError
-      catch_error!("Error:", "oops something went wrong")
+        debit_log.complete!
+        credit_log.complete!
+      end
+
+      return { balance: sender_user.account.reload.balance }
+
+    rescue ActiveRecord::LockWaitTimeout => exception
+      catch_error!("Try again", exception: exception)
+
+    rescue ::Errors::NotEnoughMoney => exception
+      catch_error!("Not enough money", target: :sender_id, exception: exception)
+
+    rescue ActiveRecord::RecordNotFound => exception
+      catch_error!("No user", exception: exception)
+
+    rescue ::Errors::WrongReceiver => exception
+      catch_error!("No way!", exception: exception)
+
+    rescue StandardError => exception
+      catch_error!("oops something went wrong", exception: exception)
     end
 
     private
@@ -41,9 +53,13 @@ module Transfers
       @receiver_user ||= User.preload(:account).find(receiver_id)
     end
 
-    def catch_error!(target, message)
+    def catch_error!(message, target: "Error:", exception: nil)
+      Rails.logger.error(exception) if exception.present?
+
       errors.add(target, message)
-      transaction_log_service.failure!
+
+      debit_log&.failure!
+      credit_log&.failure!
     end
   end
 end
