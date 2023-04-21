@@ -1,6 +1,6 @@
 class Api::V1::AccountController < ::ApiController
   def transactions
-    result = ::Accounts::TransactionsInteractor.run!
+    result = ::Accounts::TransactionsInteractor.run!(account: current_user.account)
     render json: result
   end
 

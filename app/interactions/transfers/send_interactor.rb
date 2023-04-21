@@ -14,8 +14,8 @@ module Transfers
 
       # if second transaction will be rollbacked, we are not loose our history
       ActiveRecord::Base.transaction do
-        @debit_log = ::TransactionLogs::DebitLoggerService.new(sender_user.account, amount)
-        @credit_log = ::TransactionLogs::CreditLoggerService.new(receiver_user.account, amount)
+        @debit_log = ::TransactionLogs::DebitLoggerService.new(account: sender_user.account, amount: amount, target_name: receiver_user.name)
+        @credit_log = ::TransactionLogs::CreditLoggerService.new(account: receiver_user.account, amount: amount, target_name: sender_user.name)
       end
 
       ActiveRecord::Base.transaction do
