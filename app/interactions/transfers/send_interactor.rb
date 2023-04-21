@@ -1,7 +1,5 @@
 module Transfers
   class SendInteractor < ActiveInteraction::Base
-    class NotEnoughtMoney < StandardError; end
-
     integer :sender_id
     integer :receiver_id
     decimal :amount
@@ -9,25 +7,24 @@ module Transfers
     validates :sender_id, :receiver_id, presence: true
     validates_numericality_of :amount, greater_than: 0
 
+    attr_reader :transaction_log_service
+
     def execute
-      ActiveRecord::Base.transaction do
-        sender_account = sender_user.account.lock!
-        raise NotEnoughtMoney unless (sender_account.balance - amount).positive?
+      @transaction_log_service = TransactionLogService.new(sender_user, receiver_user, amount)
 
-        receiver_account = receiver_user.account.lock!
-
-        sender_account.balance -= amount
-        receiver_account.balance += amount
-
-        sender_account.save!
-        receiver_account.save!
+      begin
+        ::Transfers::SwapMoneyService.call(sender_user, receiver_user, amount)
+        transaction_log_service.complete!
+      rescue ::Errors::NotEnoughtMoney
+        catch_error!(:sender_id, "Not enough money")
       end
 
       return { balance: sender_user.account.balance }
-    rescue NotEnoughtMoney
-      errors.add(:sender_id, "Not enough money")
+
     rescue ActiveRecord::RecordNotFound
-      errors.add("Error:", "No user")
+      catch_error!("Error:", "No user")
+    rescue StandardError
+      catch_error!("Error:", "oops something went wrong")
     end
 
     private
@@ -38,6 +35,11 @@ module Transfers
 
     def receiver_user
       @receiver_user ||= User.find(receiver_id)
+    end
+
+    def catch_error!(target, message)
+      errors.add(target, message)
+      transaction_log_service.failure!
     end
   end
 end
