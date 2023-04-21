@@ -2,7 +2,7 @@ module Transfers
   class TransactionLogService
     attr_reader :transaction
     def initialize(sender_user, receiver_user, amount)
-      @transaction = Transaction.create(
+      @transaction = Transaction.create!(
         sender_account_id: sender_user.account.id,
         receiver_account_id: receiver_user.account.id,
         amount: amount,

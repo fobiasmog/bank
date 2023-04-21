@@ -34,11 +34,11 @@ module Transfers
     private
 
     def sender_user
-      @sender_user ||= User.find(sender_id)
+      @sender_user ||= User.preload(:account).find(sender_id)
     end
 
     def receiver_user
-      @receiver_user ||= User.find(receiver_id)
+      @receiver_user ||= User.preload(:account).find(receiver_id)
     end
 
     def catch_error!(target, message)
