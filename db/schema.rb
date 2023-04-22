@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_165804) do
     t.string "kind", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "target_name", null: false
+    t.string "target_name", null: false # who made this (if credit) or for whom (if debit) - kind of simplification here
   end
 
   create_table "users", force: :cascade do |t|
