@@ -17,7 +17,6 @@ RSpec.describe Transfers::SwapMoneyService do
 
     let(:amount) { 500 }
 
-
     context 'when sender has enough money' do
       it 'transfers money from sender to receiver' do
         expect { subject }
