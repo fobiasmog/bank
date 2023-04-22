@@ -1,9 +1,23 @@
 # README
 
+## Rake/onboarding
+```shell
+rails user:create_admin # first is to create admin
+rails user:create -- --email ... --name ... --password ... # next one user
+rails credit:send -- --user <User.id or User.email> --amount 1500.3 # send money from admin account (rich one)
+rails credit:send -- --user ada3@test.com --amount 1500.3 --force # directly w/o transaction logging
+```
+
+* I'm using Postgres on AWS RDS -- feel free to use it (but it's not super powerful)
+* My Auth0 API limits is 1k tokens (but it's only using for manual user creation from rake task)
+* My Auth0 users limit is 7k :shrug:
+
+
 ## Simplifications
 1. Each client can have only one account
 2. Limit-offset pagination for transactions and clients list -- but sometimes it's not relevant (depends on the business case)
 3. In real money processing is good practice to split real number on two naturals (by decimal point) to avoid rounding
+
 ## Assumptions
 1. Each client makes (on average) 5-10 transactions per day -- it's not a stock exchange :D
 2. Deadlocks on transactions is possible, and not very often (see 1.)
@@ -31,9 +45,9 @@
 ## TODOs
 * [ ] constraints, indexes, not nulls
 * [x] specs
-* [ ] ui
-* [ ] rake for user creation
-* [ ] rake for user credit
+* [x] ui
+* [x] rake for user creation (+ admin)
+* [x] rake for user credit
 
 ## Auth0 vs Devise motivation
 ...
