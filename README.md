@@ -41,13 +41,9 @@ rails credit:send -- --user ada3@test.com --amount 1500.3 --force # directly w/o
 ![](bank_scale.png)
 
 
-
 ## TODOs
-* [ ] constraints, indexes, not nulls
+* [x] constraints, indexes, not nulls
 * [x] specs
 * [x] ui
 * [x] rake for user creation (+ admin)
 * [x] rake for user credit
-
-## Auth0 vs Devise motivation
-...
