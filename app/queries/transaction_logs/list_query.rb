@@ -1,6 +1,8 @@
 module TransactionLogs
   class ListQuery
-    def self.call(account_id:)
+    PER_PAGE = 5
+
+    def self.call(account_id:, page: 0)
       TransactionLog
         .where(
           account_id: account_id,
@@ -8,7 +10,8 @@ module TransactionLogs
         )
         .order(created_at: :desc)
         .select('amount, kind, state, target_name, created_at')
-        .limit(5)
+        .limit(PER_PAGE)
+        .offset(page * PER_PAGE)
     end
   end
 end

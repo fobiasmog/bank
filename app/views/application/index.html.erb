@@ -34,6 +34,7 @@
     <div data-transactions-target="transactionsList" class="transactions-container flex flex-col">
       <%= render 'partials/transactions', transactions: [] %>
     </div>
+    <button data-transactions-target="loadButton" data-action="transactions#loadTransactions">Load more</div>
   </div>
 
 <% else %>

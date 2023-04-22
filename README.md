@@ -3,7 +3,7 @@
 ## Simplifications
 1. Each client can have only one account
 2. Limit-offset pagination for transactions and clients list -- but sometimes it's not relevant (depends on the business case)
-
+3. In real money processing is good practice to split real number on two naturals (by decimal point) to avoid rounding
 ## Assumptions
 1. Each client makes (on average) 5-10 transactions per day -- it's not a stock exchange :D
 2. Deadlocks on transactions is possible, and not very often (see 1.)

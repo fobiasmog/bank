@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 import "axios"
 
 export default class extends Controller {
-  static targets = ['amount', 'sendButton',  'balance', 'clients']
+  static targets = ['amount', 'sendButton', 'balance', 'clients']
   static selectionPosition = null
   static receiverId = null
 
@@ -34,6 +34,7 @@ export default class extends Controller {
     await axios
             .post('/api/v1/transfer', transferData)
             .then(result => this.handleResult(result))
+            .catch((error) => this.handleError(error))
             .finally(() => this.cleanUp())
   }
 
@@ -50,7 +51,11 @@ export default class extends Controller {
   cleanUp() {
     this.sendButtonTarget.disabled = false
     this.amountTarget.value = null
-    this.clientsTarget.querySelector(`:nth-child(${this.selectionPosition})`).classList.remove('selected-row')
-    this.selectionPosition = null
+    this.receiverId = null
+
+    if (this.selectionPosition) {
+      this.clientsTarget.querySelector(`:nth-child(${this.selectionPosition})`).classList.remove('selected-row')
+      this.selectionPosition = null
+    }
   }
 }
