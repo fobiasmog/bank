@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_21_165804) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_22_201457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_165804) do
     t.datetime "updated_at", null: false
     t.string "iban", limit: 34
     t.index ["user_id"], name: "index_accounts_on_user_id"
+    t.check_constraint "balance >= 0::numeric", name: "balance_positiveness_check"
   end
 
   create_table "transaction_logs", force: :cascade do |t|
@@ -30,7 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_165804) do
     t.string "kind", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "target_name", null: false # who made this (if credit) or for whom (if debit) - kind of simplification here
+    t.string "target_name", null: false
+    t.check_constraint "amount >= 0::numeric", name: "amount_positiveness_check"
   end
 
   create_table "users", force: :cascade do |t|
@@ -40,7 +42,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_165804) do
     t.boolean "admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email"
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "transaction_logs", "accounts"
 end
