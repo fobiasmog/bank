@@ -19,7 +19,11 @@ module Transfers
       end
 
       ActiveRecord::Base.transaction do
-        ::Transfers::SwapMoneyService.call(sender_user.account.id, receiver_user.account.id, amount)
+        ::Transfers::SwapMoneyService.call(
+          sender_account: sender_user.account,
+          receiver_account: receiver_user.account,
+          amount: amount
+        )
 
         debit_log.complete!
         credit_log.complete!
