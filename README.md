@@ -19,9 +19,18 @@
     - 2.2 Make the Frontend to be able to show 'processing' transactions and receive some updates (via websocket for example)
 3. Handle possible hard issue: outage between transaction commit and writing to transactions log DB (logging on very beginning of request)
 
+## Solution
+### MVP (current schema)
+![](bank.png)
+
+### Scale
+![](bank_scale.png)
+
+
+
 ## TODOs
 * [ ] constraints, indexes, not nulls
-* [ ] specs
+* [x] specs
 * [ ] ui
 * [ ] rake for user creation
 * [ ] rake for user credit
