@@ -41,6 +41,7 @@ export default class extends Controller {
   handleResult(response) {
     if (response.data.balance) {
       this.balanceTarget.innerHTML = response.data.balance
+      alert('Sent!')
     }
   }
 
