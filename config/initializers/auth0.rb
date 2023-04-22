@@ -1,5 +1,7 @@
 AUTH0_CONFIG = Rails.application.config_for(:auth0)
 
+return if Rails.env.test?
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider(
     :auth0,

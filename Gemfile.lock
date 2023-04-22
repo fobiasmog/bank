@@ -96,9 +96,15 @@ GEM
     debug (1.7.2)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    diff-lcs (1.5.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.12.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faraday (2.7.4)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
@@ -220,6 +226,23 @@ GEM
       netrc (~> 0.8)
     retryable (3.0.5)
     rexml (3.2.5)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-rails (6.0.1)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.11)
+      rspec-expectations (~> 3.11)
+      rspec-mocks (~> 3.11)
+      rspec-support (~> 3.11)
+    rspec-support (3.12.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.8.6)
@@ -246,6 +269,7 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    test-prof (1.2.1)
     thor (1.2.1)
     timeout (0.3.2)
     turbo-rails (1.4.0)
@@ -285,6 +309,7 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  factory_bot_rails
   ffaker
   importmap-rails
   jbuilder
@@ -293,11 +318,13 @@ DEPENDENCIES
   pg
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)
+  rspec-rails
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)
   state_machines-activerecord
   stimulus-rails
+  test-prof
   turbo-rails
   tzinfo-data
   web-console
