@@ -1,0 +1,13 @@
+<% transactions.each do |t| %>
+  <div class="flex">
+    <div class="flex-grow"><%= t.target_name %></div>
+
+    <% if t.debit?%>
+      <div class="color-red">-&nbsp;<%= t.amount %></div>
+    <% elsif t.credit? %>
+      <div class="color-green">+&nbsp;<%= t.amount %></div>
+    <% else %>
+      <div>???</div>
+    <% end %>
+  </div>
+<% end %>

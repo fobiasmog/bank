@@ -10,7 +10,7 @@ module Auth
           user.name = name
           user.avatar_url = avatar_url
         end
-        Account.find_or_create_by!(user: user)
+        Account.find_or_create_by!(user_id: user.id)
       end
     end
   end

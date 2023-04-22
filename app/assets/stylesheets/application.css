@@ -14,6 +14,13 @@
  *= require_self
  */
 
+/* defenetly you can connect tailwind here, but isn't need right now */
+.flex { display: flex }
+.flex-col { flex-direction: column }
+.flex-grow { flex-grow: 1 }
+
+.color-red { color: red }
+.color-green { color: green }
 
 .selected-row {
   color: red;
@@ -35,4 +42,9 @@
 }
 .rows-container > * {
   cursor: pointer;
+}
+
+.transactions-container {
+  width: 300px;
+  gap: 10px;
 }

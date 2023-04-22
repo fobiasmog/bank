@@ -29,6 +29,13 @@
     </div>
   </div>
 
+  <div data-controller="transactions">
+    <h3>Transactions</h3>
+    <div data-transactions-target="transactionsList" class="transactions-container flex flex-col">
+      <%= render 'partials/transactions', transactions: [] %>
+    </div>
+  </div>
+
 <% else %>
   <%= button_to 'Login', '/auth/auth0', method: :post, data: { turbo: false } %>
 <% end %>

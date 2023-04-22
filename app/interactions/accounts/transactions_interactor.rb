@@ -3,7 +3,7 @@ module Accounts
     object :account, class: Account
 
     def execute
-      TransactionLog.where(account_id: account.id).order(created_at: :desc).select('amount, kind, state, target_name, created_at').limit(5)
+      TransactionLogs::ListQuery.call(account_id: account.id)
     end
   end
 end
