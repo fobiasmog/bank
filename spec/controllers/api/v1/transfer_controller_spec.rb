@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Api::V1::TransferController, type: :controller do
+RSpec.describe Api::V1::TransferController do
   let_it_be(:sender) { create(:user) }
   let_it_be(:receiver) { create(:user) }
   let(:amount) { 100 }
@@ -58,7 +60,7 @@ RSpec.describe Api::V1::TransferController, type: :controller do
       it 'returns an error response with status 500' do
         transfer_money
 
-        expect(response).to have_http_status(500)
+        expect(response).to have_http_status(:internal_server_error)
         expect(JSON.parse(response.body)).to eq('errors' => ['Error message'])
       end
     end

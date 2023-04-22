@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Accounts
   class TransactionsInteractor < ActiveInteraction::Base
     object :account, class: Account

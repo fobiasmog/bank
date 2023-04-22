@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 AUTH0_CONFIG = Rails.application.config_for(:auth0)
 
 return if Rails.env.test?

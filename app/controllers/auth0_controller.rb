@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
 class Auth0Controller < ApplicationController
   def callback
     # OmniAuth stores the information returned from Auth0 and the IdP in request.env['omniauth.auth'].
     # In this code, you will pull the raw_info supplied from the id_token and assign it to the session.
-    # Refer to https://github.com/auth0/omniauth-auth0/blob/master/EXAMPLES.md#example-of-the-resulting-authentication-hash for complete information on 'omniauth.auth' contents.
+    # Refer to https://github.com/auth0/omniauth-auth0/blob/master/EXAMPLES.md#example-of-the-resulting-authentication-hash
+    # for complete information on 'omniauth.auth' contents.
     auth_info = request.env['omniauth.auth']
     session[:userinfo] = auth_info['extra']['raw_info']
 
     user_hash = {
       email: auth_info.dig('extra', 'raw_info', 'email'),
       name: auth_info.dig('extra', 'raw_info', 'nickname'),
-      avatar_url: auth_info.dig('extra', 'raw_info', 'picture'),
+      avatar_url: auth_info.dig('extra', 'raw_info', 'picture')
     }
 
     Auth::CreateUserInteractor.run!(**user_hash)
@@ -39,8 +42,6 @@ class Auth0Controller < ApplicationController
     URI::HTTPS.build(host: AUTH0_CONFIG['auth0_domain'], path: '/v2/logout', query: request_params.to_query).to_s
   end
 end
-
-
 
 # {
 #   "provider"=>"auth0",

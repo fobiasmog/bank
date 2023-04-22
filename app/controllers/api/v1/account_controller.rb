@@ -1,11 +1,17 @@
-class Api::V1::AccountController < ::ApiController
-  def transactions
-    result = ::Accounts::TransactionsInteractor.run!(account: current_user.account, page: params[:page])
-    render partial: 'partials/transactions', locals: { transactions: result }
-  end
+# frozen_string_literal: true
 
-  def balance
-    result = ::Accounts::BalanceInteractor.run!(user: current_user)
-    render json: result
+module Api
+  module V1
+    class AccountController < ::ApiController
+      def transactions
+        result = ::Accounts::TransactionsInteractor.run!(account: current_user.account, page: params[:page])
+        render partial: 'partials/transactions', locals: { transactions: result }
+      end
+
+      def balance
+        result = ::Accounts::BalanceInteractor.run!(user: current_user)
+        render json: result
+      end
+    end
   end
 end

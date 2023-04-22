@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Transfers
   class ClientsListInteractor < ActiveInteraction::Base
     # TODO: pagination

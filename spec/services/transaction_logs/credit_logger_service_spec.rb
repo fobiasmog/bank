@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe TransactionLogs::CreditLoggerService do
@@ -8,7 +10,7 @@ RSpec.describe TransactionLogs::CreditLoggerService do
       {
         account: Account.new,
         amount: 100.1,
-        target_name: "Name"
+        target_name: 'Name'
       }
     end
 

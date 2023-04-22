@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Auth::CreateUserInteractor do
@@ -12,7 +14,7 @@ RSpec.describe Auth::CreateUserInteractor do
       }
     end
 
-    let(:new_user)  { build(:user) }
+    let(:new_user) { build(:user) }
 
     context 'when user does not exist' do
       it 'creates a new user and account' do
@@ -37,7 +39,9 @@ RSpec.describe Auth::CreateUserInteractor do
       end
 
       context 'when account already exists' do
-        let!(:existing_account) { create(:account, user_id: existing_user.id) }
+        before do
+          create(:account, user_id: existing_user.id)
+        end
 
         it 'does not create a new account' do
           expect { subject }.not_to change(Account, :count)

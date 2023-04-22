@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TransactionLogs
   class LoggerService
     attr_reader :transaction
