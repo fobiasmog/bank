@@ -2,3 +2,8 @@ development:
   auth0_domain: dev-qb6dszkhq6iinvq2.us.auth0.com
   auth0_client_id: Z1QjSCeBkDdxapP8lRpq1Lyew63peHux
   auth0_client_secret: nMQpHumus3MXleMu0RSiHqYfrq6uPVVrVd9TWvnXprXJibGjTZdHz2dsKnwZO_AE
+  api:
+    auth0_domain: dev-qb6dszkhq6iinvq2.us.auth0.com
+    auth0_client_id: WxhnwxdBve2LH3PD0eqfxfIU6OU9dOG8
+    auth0_client_secret: 3YFeX9_ROCq9jTMhlNriwxNv5PEUje_7SznnioowjJOtdlmXWLoAwbQZrGpAhDuE
+    audience: https://dev-qb6dszkhq6iinvq2.us.auth0.com/api/v2/
