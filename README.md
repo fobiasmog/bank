@@ -11,12 +11,14 @@ rails credit:send -- --user ada3@test.com --amount 1500.3 --force # directly w/o
 * I'm using Postgres on AWS RDS -- feel free to use it (but it's not super powerful)
 * My Auth0 API limits is 1k tokens (but it's only using for manual user creation from rake task)
 * My Auth0 users limit is 7k :shrug:
-
+* Common pipeline of request be like: controller -> interactor -> service(s) ->(optional) query(ies)
 
 ## Simplifications
 1. Each client can have only one account
 2. Limit-offset pagination for transactions and clients list -- but sometimes it's not relevant (depends on the business case)
 3. In real money processing is good practice to split real number on two naturals (by decimal point) to avoid rounding
+4. Didn't made a lot of reactivity on UI (you need to reload page to update transactions history)
+5. Made a transfer in sync way
 
 ## Assumptions
 1. Each client makes (on average) 5-10 transactions per day -- it's not a stock exchange :D
@@ -28,9 +30,10 @@ rails credit:send -- --user ada3@test.com --amount 1500.3 --force # directly w/o
 
 ## Scale
 1. Instead of the "Transactions" table is better to use something write-optimized (NoSQL like Cassandra)
-2. Make money swaps in an async way. In that way, we need:
-    - 2.1 Create an additional transaction state, like 'processing'
-    - 2.2 Make the Frontend to be able to show 'processing' transactions and receive some updates (via websocket for example)
+2. Make money transfers in an async way. In that way, we need:
+    - Create an additional transaction state, like 'processing'
+    - Make the Frontend to be able to show 'processing' transactions and receive some updates (via websocket for example)
+    - Queue, processor workers, etc.
 3. Handle possible hard issue: outage between transaction commit and writing to transactions log DB (logging on very beginning of request)
 
 ## Solution
@@ -47,3 +50,6 @@ rails credit:send -- --user ada3@test.com --amount 1500.3 --force # directly w/o
 * [x] ui
 * [x] rake for user creation (+ admin)
 * [x] rake for user credit
+
+## Test case
+Test Case Development - Ruby on Rails.pdf
