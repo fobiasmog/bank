@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   def index
     @user = current_user
 
-    if current_user
-      @account = current_user&.account
-      @clients_list = ::Transfers::ClientsListInteractor.run!(user: current_user)
-    end
+    return unless current_user
+
+    @account = current_user&.account
+    @clients_list = ::Transfers::ClientsListInteractor.run!(user: current_user)
   end
 
   def current_user

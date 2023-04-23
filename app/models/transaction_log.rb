@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TransactionLog < ApplicationRecord
   enum kind: { debit: 'debit', credit: 'credit' }
 

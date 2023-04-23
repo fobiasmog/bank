@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TransactionLogs
   class CreditLoggerService < LoggerService
     def initialize(account:, amount:, target_name:)

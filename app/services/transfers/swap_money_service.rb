@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Transfers
   class SwapMoneyService
     def self.call(sender_account:, receiver_account:, amount:)

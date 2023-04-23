@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rest-client'
 
 module Auth0Api
@@ -37,16 +39,19 @@ module Auth0Api
   def access_token
     response = RestClient.post(
       "https://#{AUTH0_ENDPOINT}/oauth/token",
-      {
-        grant_type: 'client_credentials',
-        client_id: AUTH0_CLIENT_ID,
-        client_secret: AUTH0_CLIENT_SECRET,
-        audience: AUDIENCE
-      }.to_json,
+      access_token_request_body,
       'Content-Type' => 'application/json'
     )
 
-
     JSON.parse(response.body)['access_token']
+  end
+
+  def access_token_request_body
+    {
+      grant_type: 'client_credentials',
+      client_id: AUTH0_CLIENT_ID,
+      client_secret: AUTH0_CLIENT_SECRET,
+      audience: AUDIENCE
+    }.to_json
   end
 end

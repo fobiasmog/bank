@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,39 +14,39 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_04_22_201457) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "accounts", force: :cascade do |t|
-    t.decimal "balance", default: "0.0"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "iban", limit: 34
-    t.index ["user_id"], name: "index_accounts_on_user_id"
-    t.check_constraint "balance >= 0::numeric", name: "balance_positiveness_check"
+  create_table 'accounts', force: :cascade do |t|
+    t.decimal 'balance', default: '0.0'
+    t.bigint 'user_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'iban', limit: 34
+    t.index ['user_id'], name: 'index_accounts_on_user_id'
+    t.check_constraint 'balance >= 0::numeric', name: 'balance_positiveness_check'
   end
 
-  create_table "transaction_logs", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.decimal "amount", null: false
-    t.string "state", null: false
-    t.string "kind", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "target_name", null: false
-    t.check_constraint "amount >= 0::numeric", name: "amount_positiveness_check"
+  create_table 'transaction_logs', force: :cascade do |t|
+    t.bigint 'account_id', null: false
+    t.decimal 'amount', null: false
+    t.string 'state', null: false
+    t.string 'kind', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.string 'target_name', null: false
+    t.check_constraint 'amount >= 0::numeric', name: 'amount_positiveness_check'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", null: false
-    t.string "name"
-    t.string "avatar_url"
-    t.boolean "admin", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email"
+  create_table 'users', force: :cascade do |t|
+    t.string 'email', null: false
+    t.string 'name'
+    t.string 'avatar_url'
+    t.boolean 'admin', default: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['email'], name: 'index_users_on_email'
   end
 
-  add_foreign_key "accounts", "users"
-  add_foreign_key "transaction_logs", "accounts"
+  add_foreign_key 'accounts', 'users'
+  add_foreign_key 'transaction_logs', 'accounts'
 end

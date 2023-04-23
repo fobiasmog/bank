@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Transfers::SwapMoneyService do
@@ -11,11 +13,10 @@ RSpec.describe Transfers::SwapMoneyService do
         amount: amount
       }
     end
+    let(:amount) { 500 }
 
     let_it_be(:sender) { create(:account, balance: 1000) }
     let_it_be(:receiver) { create(:account, balance: 1000) }
-
-    let(:amount) { 500 }
 
     context 'when sender has enough money' do
       it 'transfers money from sender to receiver' do
@@ -38,7 +39,9 @@ RSpec.describe Transfers::SwapMoneyService do
 
     context 'when there is a lock timeout' do
       before do
+        # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(ActiveRecord::Locking::Pessimistic).to receive(:lock!).and_raise(ActiveRecord::LockWaitTimeout)
+        # rubocop:enable RSpec/AnyInstance
       end
 
       it 'raises a LockWaitTimeout error and not change the sender or receiver balance' do
