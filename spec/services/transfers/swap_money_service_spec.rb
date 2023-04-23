@@ -15,15 +15,21 @@ RSpec.describe Transfers::SwapMoneyService do
     end
     let(:amount) { 500 }
 
-    let_it_be(:sender) { create(:account, balance: 1000) }
-    let_it_be(:receiver) { create(:account, balance: 1000) }
+    let(:sender_user) { create(:user) }
+    let(:receiver_user) { create(:user) }
+    let(:sender) { create(:account, user_id: sender_user.id, balance: 1000) }
+    let(:receiver) { create(:account, user_id: receiver_user.id, balance: 1000) }
 
-    context 'when sender has enough money' do
-      it 'transfers money from sender to receiver' do
+    shared_examples 'transfers money from sender to receiver' do
+      it 'successfully' do
         expect { subject }
           .to change { sender.reload.balance }.by(-amount)
           .and change { receiver.reload.balance }.by(amount)
       end
+    end
+
+    context 'when sender has enough money' do
+      it_behaves_like 'transfers money from sender to receiver'
     end
 
     context 'when sender does not have enough money' do
@@ -35,6 +41,12 @@ RSpec.describe Transfers::SwapMoneyService do
           .and not_change { sender.reload.balance }
           .and not_change { receiver.reload.balance }
       end
+    end
+
+    context 'when sender send all money' do
+      let(:amount) { sender.balance }
+
+      it_behaves_like 'transfers money from sender to receiver'
     end
 
     context 'when there is a lock timeout' do

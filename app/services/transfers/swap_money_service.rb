@@ -6,7 +6,7 @@ module Transfers
       ActiveRecord::Base.connection.execute "SET lock_timeout TO '1s'" # or, maybe, tune you pg config
 
       sender_account_with_lock = sender_account.lock!
-      raise ::Errors::NotEnoughMoney unless (sender_account_with_lock.balance - amount).positive?
+      raise ::Errors::NotEnoughMoney if (sender_account_with_lock.balance - amount).negative?
 
       receiver_account_with_lock = receiver_account.lock!
 
